@@ -27,8 +27,8 @@ class CustomFieldsRepository extends Repository {
       $field = new CustomFieldEntity();
       $this->entityManager->persist($field);
     }
-    if (isset($data['name'])) $field->setName($data['name']);
-    if (isset($data['type'])) $field->setType($data['type']);
+    if (isset($data['name'])) $field->setName(sanitize_text_field($data['name']));
+    if (isset($data['type'])) $field->setType(sanitize_text_field($data['type']));
     if (isset($data['params'])) $field->setParams($data['params']);
     $this->entityManager->flush();
     return $field;
