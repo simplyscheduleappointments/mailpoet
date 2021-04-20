@@ -24,7 +24,6 @@ const OfferMigration = ({
         <li>{MailPoet.I18n.t('offerMigrationList4')}</li>
       </ul>
       <Button
-        variant="dark"
         type="button"
         href="https://www.mailpoet.com/concierge-migration/"
         target="_blank"
