@@ -29,7 +29,7 @@ services:
       - mailhog-data:/mailhog-data
 
   wordpress:
-    image: mailpoet/wordpress:${WORDPRESS_IMAGE_VERSION:-wp-5.6_php8.0_20210125.1}
+    image: mailpoet/wordpress:wp-5.3_php7.1_20210129.1
     depends_on:
       - chrome
       - mailhog

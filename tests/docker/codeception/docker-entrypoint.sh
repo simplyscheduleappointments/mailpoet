@@ -25,9 +25,6 @@ chown www-data:www-data wp-content/uploads
 chmod 755 wp-content/plugins
 chmod -R 777 wp-content/uploads
 
-# disable automatic updates
-wp config set WP_AUTO_UPDATE_CORE false --raw
-
 # cleanup database
 mysqladmin --host=mysql --user=root --password=wordpress drop wordpress --force
 mysqladmin --host=mysql --user=root --password=wordpress create wordpress --force
@@ -79,10 +76,6 @@ if [[ ! -d "/wp-core/wp-content/plugins/woocommerce-subscriptions" ]]; then
   unzip -q -o "$WOOCOMMERCE_SUBS_ZIP" -d /wp-core/wp-content/plugins/
 fi
 
-# activate all plugins which source code want to access in tests runtime
-wp plugin activate woocommerce
-wp plugin activate woocommerce-subscriptions
-
 # add configuration
 CONFIG=''
 CONFIG+="define('WP_DEBUG', true);\n"
@@ -95,10 +88,14 @@ CONFIG+="define('DISABLE_WP_CRON', true);\n"
 # fix for WP CLI bug (https://core.trac.wordpress.org/ticket/44569)
 CONFIG+="if (!isset(\$_SERVER['SERVER_NAME'])) \$_SERVER['SERVER_NAME'] = '';\n"
 
-sed -i "s/define( *'WP_DEBUG', false *);/$CONFIG/" ./wp-config.php
+sed -i "s/define( *'WP_DEBUG', false *);/$CONFIG/" /wp-core/wp-config.php
 
 # activate MailPoet
 wp plugin activate mailpoet/mailpoet.php
+
+# activate all plugins which source code want to access in tests runtime
+wp plugin activate woocommerce
+wp plugin activate woocommerce-subscriptions
 
 if [[ $CIRCLE_JOB == *"_with_premium_"* ]]; then
   # Softlink MailPoet Premium to plugin path
