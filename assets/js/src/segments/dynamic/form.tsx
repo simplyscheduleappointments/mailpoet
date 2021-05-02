@@ -165,7 +165,7 @@ const DynamicSegmentForm: React.FunctionComponent = () => {
 
       <Heading level={1} className="mailpoet-title">
         <span>{MailPoet.I18n.t('formPageTitle')}</span>
-        <Link className="mailpoet-button mailpoet-button-small" to="/segments">{MailPoet.I18n.t('backToList')}</Link>
+        <Link className="mailpoet-button mailpoet-button-small mailpoet-button-secondary" to="/segments">{MailPoet.I18n.t('backToList')}</Link>
       </Heading>
 
       <form className="mailpoet_form">
