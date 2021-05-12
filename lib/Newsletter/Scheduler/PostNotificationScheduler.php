@@ -54,7 +54,7 @@ class PostNotificationScheduler {
   }
 
   public function transitionHook($newStatus, $oldStatus, $post) {
-    $this->loggerFactory->getLogger(LoggerFactory::TOPIC_POST_NOTIFICATIONS)->addInfo(
+    $this->loggerFactory->getLogger(LoggerFactory::TOPIC_POST_NOTIFICATIONS_DEBUG, true)->addInfo(
       'transition post notification hook initiated',
       [
         'post_id' => $post->ID,
@@ -62,6 +62,16 @@ class PostNotificationScheduler {
         'old_status' => $oldStatus,
       ]
     );
+    try {
+      throw new \Exception();
+    } catch (\Exception $exception) {
+      $this->loggerFactory->getLogger(LoggerFactory::TOPIC_POST_NOTIFICATIONS_DEBUG, true)->addInfo(
+        'transition post notification hook backtrace',
+        [
+          'backtrace' => $exception->getTraceAsString(),
+        ]
+      );
+    }
     $types = Posts::getTypes();
     if (($newStatus !== 'publish') || !isset($types[$post->post_type])) { // phpcs:ignore Squiz.NamingConventions.ValidVariableName.NotCamelCaps
       return;
@@ -112,7 +122,7 @@ class PostNotificationScheduler {
     if ($scheduledAt && $scheduledAt->format('Y-m-d H:i:s') === $nextRunDate) {
       return null;
     }
-    
+
     $sendingTask = SendingTask::create();
     $sendingTask->newsletterId = $newsletter->getId();
     $sendingTask->status = SendingQueue::STATUS_SCHEDULED;

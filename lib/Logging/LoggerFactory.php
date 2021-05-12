@@ -25,6 +25,7 @@ use MailPoetVendor\Monolog\Processor\WebProcessor;
 class LoggerFactory {
   const TOPIC_NEWSLETTERS = 'newsletters';
   const TOPIC_POST_NOTIFICATIONS = 'post-notifications';
+  const TOPIC_POST_NOTIFICATIONS_DEBUG = 'post-notifications-debug';
   const TOPIC_MSS = 'mss';
   const TOPIC_SENDING = 'sending';
 
